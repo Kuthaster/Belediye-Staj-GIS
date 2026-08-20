@@ -1,0 +1,87 @@
+# ============================
+# Backend (Spring Boot / Maven)
+# ============================
+backend/HELP.md
+backend/cografi-nesne-takip/target/
+backend/!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+backend/.apt_generated
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings
+backend/.springBeans
+backend/.sts4-cache
+
+### IntelliJ IDEA ###
+backend/.idea
+backend/*.iws
+backend/*.iml
+backend/*.ipr
+
+### NetBeans ###
+backend/nbproject/private/
+backend/nbbuild/
+backend/dist/
+backend/nbdist/
+backend/.nb-gradle/
+backend/build/
+
+
+# Local-only secrets — never commit real credentials
+backend/src/main/resources/application-local.properties
+backend/cografi-nesne-takip/src/main/resources/application.properties
+# ============================
+# Flutter (mobile app, folder "frontend")
+# ============================
+frontend/**/doc/api/
+frontend/**/ios/Flutter/.last_build_id
+frontend/.dart_tool/
+frontend/.frontend-plugins
+frontend/.frontend-plugins-dependencies
+frontend/.packages
+frontend/.pub-cache/
+frontend/.pub/
+frontend/build/
+frontend/coverage/
+frontend/android/.gradle/
+frontend/android/app/build/
+frontend/ios/Pods/
+frontend/ios/.symlinks/
+frontend/ios/Flutter/Flutter.framework
+frontend/ios/Flutter/Flutter.podspec
+frontend/.flutter-plugins-dependencies
+# Symbolication / obfuscation related
+app.*.symbols
+app.*.map.json
+
+# ============================
+# Miscellaneous / general
+# ============================
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+Thumbs.db
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_
+.vscode/
+# Generic IntelliJ (repo-wide, in case IDE is opened at root)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# .vscode: commented out by default since launch configs/tasks
+# can be useful to share. Uncomment if you'd rather ignore it.
+# .vscode/
+
+# Secrets — never commit these anywhere in the repo
+**/*.env

@@ -1,0 +1,3 @@
+ALTER TABLE urban_object ALTER COLUMN status SET DEFAULT 'ACTIVE';
+ALTER TABLE urban_object ALTER COLUMN created_at DROP DEFAULT;
+ALTER TABLE urban_object ADD COLUMN updated_at TIMESTAMP;

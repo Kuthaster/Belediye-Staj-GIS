@@ -1,0 +1,1 @@
+ALTER TABLE playground_equipment RENAME COLUMN safety_cert_date TO safety_certification_date
