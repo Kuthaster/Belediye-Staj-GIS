@@ -6,7 +6,7 @@ import com.kutalmis.cografi_nesne_takip.entity.ObjectStatus;
 import com.kutalmis.cografi_nesne_takip.entity.ObjectType;
 
 public record BenchDTO(
-        Long id, ObjectType type, double latitude, double longitude, ObjectStatus status,
-        LocalDateTime createdAt, LocalDateTime updatedAt,
-        Integer seatCount, String material, Boolean hasBackRest) {
+                Long id, ObjectType type, double latitude, double longitude, ObjectStatus status,
+                LocalDateTime createdAt, LocalDateTime updatedAt,
+                Integer seatCount, String material, Boolean hasBackrest) {
 }
