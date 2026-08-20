@@ -14,14 +14,14 @@ import jakarta.persistence.Table;
 @DiscriminatorValue("PL AYGROUND_EQUIPMENT")
 public class PlaygroundEquipment extends UrbanObject {
     @Enumerated(EnumType.STRING)
-    @Column(name = "equipment_type")
+    @Column(name = "equipment_type", nullable = false)
     private EquipmentType equipmentType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "age_group")
+    @Column(name = "age_group", nullable = true)
     private AgeGroup ageGroup;
 
-    @Column(name = "safety_certification_date")
+    @Column(name = "safety_certification_date", nullable = true)
     private LocalDate safetyCertificationDate;
 
     public EquipmentType getEquipmentType() {

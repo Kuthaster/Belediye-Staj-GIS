@@ -10,7 +10,7 @@ class Tree {
   final DateTime createdAt;
   final DateTime? updatedAt;
   final String? species;
-  final DateTime plantingDate;
+  final DateTime? plantingDate;
   final double? trunkDiameterCm;
   final double? heightM;
   final String? healthStatus;
@@ -24,7 +24,7 @@ class Tree {
     required this.createdAt,
     this.updatedAt,
     this.species,
-    required this.plantingDate,
+    this.plantingDate,
     this.trunkDiameterCm,
     this.heightM,
     this.healthStatus,

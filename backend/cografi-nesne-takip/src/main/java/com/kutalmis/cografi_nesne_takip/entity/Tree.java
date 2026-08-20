@@ -12,19 +12,19 @@ import jakarta.persistence.Table;
 @DiscriminatorValue("TREE")
 public class Tree extends UrbanObject {
 
-    @Column(name = "species")
+    @Column(name = "species", nullable = true)
     private String species;
 
-    @Column(name = "trunk_diameter_cm")
+    @Column(name = "trunk_diameter_cm", nullable = true)
     private Double trunkDiameterCm;
 
-    @Column(name = "planting_date")
+    @Column(name = "planting_date", nullable = true)
     private LocalDate plantingDate;
 
-    @Column(name = "height_m")
+    @Column(name = "height_m", nullable = true)
     private Double heightM;
 
-    @Column(name = "health_status")
+    @Column(name = "health_status", nullable = true)
     private String healthStatus;
 
     public String getSpecies() {

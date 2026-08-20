@@ -6,17 +6,17 @@ import jakarta.persistence.*;
 @Table(name = "trash_bin")
 @DiscriminatorValue("TRASH_BIN")
 public class TrashBin extends UrbanObject {
-    @Column(name = "volume_liters")
+    @Column(name = "volume_liters", nullable = true)
     private Double volumeLiters;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "bin_type")
+    @Column(name = "bin_type", nullable = false)
     private BinType binType;
 
-    @Column(name = "material")
+    @Column(name = "material", nullable = true)
     private String material;
 
-    @Column(name = "collection_frequency_days")
+    @Column(name = "collection_frequency_days", nullable = true)
     private Integer collectionFrequencyDays;
 
     public Double getVolumeLiters() {

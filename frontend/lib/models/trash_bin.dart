@@ -11,7 +11,7 @@ class TrashBin {
   final DateTime createdAt;
   final DateTime? updatedAt;
   final double? volumeLiters;
-  final BinType? binType;
+  final BinType binType;
   final String? material;
   final int collectionFrequencyDays;
 
@@ -24,7 +24,7 @@ class TrashBin {
     required this.createdAt,
     this.updatedAt,
     this.volumeLiters,
-    this.binType,
+    required this.binType,
     this.material,
     required this.collectionFrequencyDays,
   });

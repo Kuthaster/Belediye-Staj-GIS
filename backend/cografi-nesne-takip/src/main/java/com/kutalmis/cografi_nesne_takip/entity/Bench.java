@@ -6,13 +6,13 @@ import jakarta.persistence.*;
 @Table(name = "bench")
 @DiscriminatorValue("BENCH")
 public class Bench extends UrbanObject {
-    @Column(name = "seat_count")
+    @Column(name = "seat_count", nullable = false)
     private Integer seatCount;
 
-    @Column(name = "material")
+    @Column(name = "material", nullable = true)
     private String material;
 
-    @Column(name = "has_backrest")
+    @Column(name = "has_backrest", nullable = false)
     private Boolean hasBackrest;
 
     public Integer getSeatCount() {

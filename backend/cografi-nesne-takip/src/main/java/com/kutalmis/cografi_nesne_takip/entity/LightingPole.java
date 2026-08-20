@@ -6,18 +6,18 @@ import jakarta.persistence.*;
 @Table(name = "lighting_pole")
 @DiscriminatorValue("LIGHTING_POLE")
 public class LightingPole extends UrbanObject {
-    @Column(name = "wattage")
+    @Column(name = "wattage", nullable = true)
     private Integer wattage;
 
-    @Column(name = "height_m")
+    @Column(name = "height_m", nullable = true)
     private Double heightM;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "light_type")
+    @Column(name = "light_type", nullable = false)
     private LightType lightType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "power_source")
+    @Column(name = "power_source", nullable = false)
     private PowerSource powerSource;
 
     public Integer getWattage() {
