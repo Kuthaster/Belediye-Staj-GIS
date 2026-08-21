@@ -65,7 +65,7 @@ public class UrbanObjectController {
         return urbanObjectService.createLightingPole(dto);
     }
 
-    @PostMapping("/playground-equipments")
+    @PostMapping("/playground-equipment")
     public PlaygroundEquipmentDTO createPlaygroundEquipment(@RequestBody PlaygroundEquipmentCreateDTO dto) {
 
         return urbanObjectService.createPlaygroundEquipment(dto);

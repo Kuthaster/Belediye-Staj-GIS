@@ -84,7 +84,7 @@ public class UrbanObjectService {
         tree.setSpecies(dto.species());
         tree.setTrunkDiameterCm(dto.trunkDiameterCm());
         tree.setPlantingDate(dto.plantingDate());
-        tree.setHealthStatus(dto.healtStatus());
+        tree.setHealthStatus(dto.healthStatus());
         tree.setHeightM(dto.heightM());
 
         Tree saved = urbanObjectRepository.save(tree);
@@ -203,7 +203,7 @@ public class UrbanObjectService {
         tree.setPlantingDate(request.plantingDate());
         tree.setTrunkDiameterCm(request.trunkDiameterCm());
         tree.setHeightM(request.heightM());
-        tree.setHealthStatus(request.healtStatus());
+        tree.setHealthStatus(request.healthStatus());
 
         Tree saved = urbanObjectRepository.save(tree);
 
