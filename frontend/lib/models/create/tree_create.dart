@@ -1,6 +1,6 @@
 class TreeCreate {
-  final double? latitude;
-  final double? longitude;
+  final double latitude;
+  final double longitude;
   final String? species;
   final double? trunkDiameterCm;
   final DateTime? plantingDate;
@@ -8,8 +8,8 @@ class TreeCreate {
   final String? healtStatus;
 
   TreeCreate({
-    this.latitude,
-    this.longitude,
+    required this.latitude,
+    required this.longitude,
     this.species,
     this.trunkDiameterCm,
     this.plantingDate,

@@ -1,16 +1,16 @@
 import '../enum/bin_type.dart';
 
 class TrashBinCreate {
-  final double? latitude;
-  final double? longitude;
+  final double latitude;
+  final double longitude;
   final double? volumeLiters;
   final BinType binType;
   final String? material;
   final int? collectionFrequencyDays;
 
   TrashBinCreate({
-    this.latitude,
-    this.longitude,
+    required this.latitude,
+    required this.longitude,
     this.volumeLiters,
     required this.binType,
     this.material,

@@ -2,15 +2,15 @@ import 'package:frontend/models/enum/age_group.dart';
 import 'package:frontend/models/enum/equipment_type.dart';
 
 class PlaygroundEquipmentCreate {
-  final double? latitude;
-  final double? longitude;
+  final double latitude;
+  final double longitude;
   final EquipmentType eqiupmentType;
   final AgeGroup? ageGroup;
   final DateTime? safetyCertificationDate;
 
   PlaygroundEquipmentCreate({
-    this.latitude,
-    this.longitude,
+    required this.latitude,
+    required this.longitude,
     required this.eqiupmentType,
     this.ageGroup,
     this.safetyCertificationDate,
