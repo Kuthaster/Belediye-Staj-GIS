@@ -1,7 +1,7 @@
-// lib/screens/object_map_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:frontend/widgets/type_picker_bottom_sheet.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:frontend/screens/object_detail_screen.dart';
@@ -15,6 +15,14 @@ class ObjectMapScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Cisim Haritası')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => const TypePickerBottomSheet(),
+          );
+        },
+      ),
       body: objectsAsync.when(
         data: (objects) {
           final markers = objects.map((obj) {

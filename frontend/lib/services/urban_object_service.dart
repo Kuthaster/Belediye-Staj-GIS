@@ -11,12 +11,11 @@ import 'package:frontend/models/create/trash_bin_create.dart';
 import 'package:frontend/models/entity/tree.dart';
 import 'package:frontend/models/create/tree_create.dart';
 import 'package:frontend/models/urban_object_summary.dart';
-import 'package:frontend/services/api_client.dart';
 
 class UrbanObjectService {
   final Dio _dio;
 
-  UrbanObjectService({Dio? dio}) : _dio = dio ?? dioClient;
+  UrbanObjectService({required this._dio});
 
   Future<List<UrbanObjectSummary>> getAllUrbanObjects() async {
     final response = await _dio.get('/objects');
