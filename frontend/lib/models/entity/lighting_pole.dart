@@ -1,7 +1,7 @@
-import 'package:frontend/models/light_type.dart';
-import 'package:frontend/models/object_status.dart';
-import 'package:frontend/models/object_type.dart';
-import 'package:frontend/models/power_source.dart';
+import 'package:frontend/models/enum/light_type.dart';
+import 'package:frontend/models/enum/object_status.dart';
+import 'package:frontend/models/enum/object_type.dart';
+import 'package:frontend/models/enum/power_source.dart';
 
 class LightingPole {
   final int id;

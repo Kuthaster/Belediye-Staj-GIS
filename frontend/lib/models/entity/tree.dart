@@ -1,9 +1,7 @@
-import 'package:frontend/models/age_group.dart';
-import 'package:frontend/models/equipment_type.dart';
-import 'package:frontend/models/object_status.dart';
-import 'package:frontend/models/object_type.dart';
+import 'package:frontend/models/enum/object_status.dart';
+import 'package:frontend/models/enum/object_type.dart';
 
-class TrashBin {
+class Tree {
   final int id;
   final ObjectType type;
   final double latitude;
@@ -11,11 +9,13 @@ class TrashBin {
   final ObjectStatus status;
   final DateTime createdAt;
   final DateTime? updatedAt;
-  final EquipmentType equipmentType;
-  final AgeGroup? ageGroup;
-  final DateTime? safetyCertificationDate;
+  final String? species;
+  final DateTime? plantingDate;
+  final double? trunkDiameterCm;
+  final double? heightM;
+  final String? healthStatus;
 
-  TrashBin({
+  Tree({
     required this.id,
     required this.type,
     required this.latitude,
@@ -23,13 +23,15 @@ class TrashBin {
     required this.status,
     required this.createdAt,
     this.updatedAt,
-    required this.equipmentType,
-    this.ageGroup,
-    this.safetyCertificationDate,
+    this.species,
+    this.plantingDate,
+    this.trunkDiameterCm,
+    this.heightM,
+    this.healthStatus,
   });
 
-  factory TrashBin.fromJson(Map<String, dynamic> json) {
-    return TrashBin(
+  factory Tree.fromJson(Map<String, dynamic> json) {
+    return Tree(
       id: json['id'],
       type: ObjectType.fromApiValue(json['type']),
       latitude: json['latitude'],
@@ -39,9 +41,11 @@ class TrashBin {
       updatedAt: json['updatedAt'] != null
           ? DateTime.parse(json['updatedAt'])
           : null,
-      equipmentType: EquipmentType.fromApiValue(json['equipmentType']),
-      ageGroup: AgeGroup.fromApiValue(json['ageGroup']),
-      safetyCertificationDate: DateTime.parse(json['safetyCertificationDate']),
+      species: json['species'],
+      plantingDate: DateTime.parse(json['plantingDate']),
+      trunkDiameterCm: json['trunkDiameterCm'],
+      heightM: json['heightM'],
+      healthStatus: json['healthStatus'],
     );
   }
 }

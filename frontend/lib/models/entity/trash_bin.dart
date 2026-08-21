@@ -1,7 +1,8 @@
-import 'package:frontend/models/object_status.dart';
-import 'package:frontend/models/object_type.dart';
+import 'package:frontend/models/enum/bin_type.dart';
+import 'package:frontend/models/enum/object_status.dart';
+import 'package:frontend/models/enum/object_type.dart';
 
-class Bench {
+class TrashBin {
   final int id;
   final ObjectType type;
   final double latitude;
@@ -9,11 +10,12 @@ class Bench {
   final ObjectStatus status;
   final DateTime createdAt;
   final DateTime? updatedAt;
-  final int seatCount;
+  final double? volumeLiters;
+  final BinType binType;
   final String? material;
-  final bool hasBackrest;
+  final int collectionFrequencyDays;
 
-  Bench({
+  TrashBin({
     required this.id,
     required this.type,
     required this.latitude,
@@ -21,13 +23,14 @@ class Bench {
     required this.status,
     required this.createdAt,
     this.updatedAt,
-    required this.seatCount,
+    this.volumeLiters,
+    required this.binType,
     this.material,
-    required this.hasBackrest,
+    required this.collectionFrequencyDays,
   });
 
-  factory Bench.fromJson(Map<String, dynamic> json) {
-    return Bench(
+  factory TrashBin.fromJson(Map<String, dynamic> json) {
+    return TrashBin(
       id: json['id'],
       type: ObjectType.fromApiValue(json['type']),
       latitude: json['latitude'],
@@ -37,9 +40,10 @@ class Bench {
       updatedAt: json['updatedAt'] != null
           ? DateTime.parse(json['updatedAt'])
           : null,
-      seatCount: json['seatCount'],
+      volumeLiters: json['volumeLiters'],
+      binType: BinType.fromApiValue(json['binType']),
       material: json['material'],
-      hasBackrest: json['hasBackrest'],
+      collectionFrequencyDays: json['collectionFrequencyDays'],
     );
   }
 }
