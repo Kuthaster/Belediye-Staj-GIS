@@ -1,5 +1,5 @@
-import 'package:frontend/models/object_status.dart';
-import 'package:frontend/models/object_type.dart';
+import 'package:frontend/models/enum/object_status.dart';
+import 'package:frontend/models/enum/object_type.dart';
 
 class UrbanObjectSummary {
   final int id;
