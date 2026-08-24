@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(WrongObjectTypeException.class)
     public ResponseEntity<ErrorResponse> handleWrongType(Exception ex) {
         ErrorResponse body = new ErrorResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
