@@ -47,13 +47,14 @@ class ObjectDetailScreen extends ConsumerWidget {
         'Hacim (L)': obj.volumeLiters?.toString() ?? '-',
         'Teneke Türü': obj.binType.displayName,
         'Materyal': obj.material ?? '-',
+        'Toplama Sıklığı (Gün)': obj.collectionFrequencyDays?.toString() ?? '-',
       });
     }
     if (obj is LightingPole) {
       return _detailList({
-        'Watt': obj.wattage?.toString() ?? '-',
+        'Voltaj': obj.wattage?.toString() ?? '-',
         'Yükseklik (m)': obj.heightM?.toString() ?? '-',
-        'Işık Türü': obj.lightType.displayName,
+        'Aydınlatma Tipi': obj.lightType.displayName,
         'Güç Kaynağı': obj.powerSource.displayName,
       });
     }

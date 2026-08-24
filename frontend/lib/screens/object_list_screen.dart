@@ -16,7 +16,23 @@ class ObjectListScreen extends ConsumerWidget {
       body: objectsAsync.when(
         data: (objects) {
           if (objects.isEmpty) {
-            return const Center(child: Text('Henüz kaydedilen bir cisim yok.'));
+            return Center(
+              child: Column(
+                children: [
+                  Text(
+                    'Henüz kaydedilen bir cisim yok. Cisim oluşturarak başla.',
+                  ),
+                  ListTile(
+                    title: Text("+"),
+                    subtitle: Text("Yeni Cisim Oluştur"),
+                    onTap: () => showModalBottomSheet(
+                      context: context,
+                      builder: (context) => TypePickerBottomSheet(),
+                    ),
+                  ),
+                ],
+              ),
+            );
           }
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(urbanObjectListProvider),
