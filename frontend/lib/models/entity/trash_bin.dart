@@ -13,7 +13,7 @@ class TrashBin {
   final double? volumeLiters;
   final BinType binType;
   final String? material;
-  final int collectionFrequencyDays;
+  final int? collectionFrequencyDays;
 
   TrashBin({
     required this.id,
@@ -26,7 +26,7 @@ class TrashBin {
     this.volumeLiters,
     required this.binType,
     this.material,
-    required this.collectionFrequencyDays,
+    this.collectionFrequencyDays,
   });
 
   factory TrashBin.fromJson(Map<String, dynamic> json) {
