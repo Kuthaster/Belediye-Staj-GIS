@@ -4,6 +4,7 @@ import 'package:frontend/models/create/lighting_pole_create.dart';
 import 'package:frontend/models/enum/light_type.dart';
 import 'package:frontend/models/enum/power_source.dart';
 import 'package:frontend/providers/controller/lighting_pole_create_controller.dart';
+import 'package:frontend/widgets/location_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/services/error_interceptor.dart';
 
@@ -88,7 +89,11 @@ class _LightingPoleCreateScreenState
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // TODO: Location Picker yazılınca ekle
+            LocationPicker(
+              value: _location,
+              onChanged: (newLocation) =>
+                  setState(() => _location = newLocation),
+            ),
             Text(
               _location == null
                   ? 'Konum seçilmedi'

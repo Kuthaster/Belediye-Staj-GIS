@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/models/create/trash_bin_create.dart';
 import 'package:frontend/models/enum/bin_type.dart';
 import 'package:frontend/providers/controller/trash_bin_create_controller.dart';
+import 'package:frontend/widgets/location_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/providers/controller/tree_create_controller.dart';
 import 'package:frontend/services/error_interceptor.dart';
@@ -52,7 +53,8 @@ class _TrashBinCreateScreenState extends ConsumerState<TrashBinCreateScreen> {
       volumeLiters: _volumeLitersController.text.isEmpty
           ? null
           : double.tryParse(_volumeLitersController.text),
-      binType: _binType!, //TODO BUNA BAK ÖBÜRLERİNİ BUNA ÇEVİR OLMADI
+      binType:
+          _binType!, //TODO BÖYLE DEFAULT DEĞERSİZ YAPMAYI DENE DAHA İYİYSE ÖBÜRLERİNİ BUNA GEÇİR
       material: _materialController.text.isEmpty
           ? null
           : _materialController.text,
@@ -92,7 +94,11 @@ class _TrashBinCreateScreenState extends ConsumerState<TrashBinCreateScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // TODO: Location Picker yazılınca ekle
+            LocationPicker(
+              value: _location,
+              onChanged: (newLocation) =>
+                  setState(() => _location = newLocation),
+            ),
             Text(
               _location == null
                   ? 'Konum seçilmedi'

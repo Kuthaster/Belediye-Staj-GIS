@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/widgets/location_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/models/create/tree_create.dart';
 import 'package:frontend/providers/controller/tree_create_controller.dart';
@@ -103,7 +104,11 @@ class _TreeCreateScreenState extends ConsumerState<TreeCreateScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // TODO: Location Picker yazılınca ekle
+            LocationPicker(
+              value: _location,
+              onChanged: (newLocation) =>
+                  setState(() => _location = newLocation),
+            ),
             Text(
               _location == null
                   ? 'Konum seçilmedi'
