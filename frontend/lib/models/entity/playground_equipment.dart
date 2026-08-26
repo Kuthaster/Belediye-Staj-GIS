@@ -44,4 +44,24 @@ class PlaygroundEquipment {
       safetyCertificationDate: DateTime.parse(json['safetyCertificationDate']),
     );
   }
+
+  PlaygroundEquipment copyWith({
+    EquipmentType? equipmentType,
+    AgeGroup? ageGroup,
+    DateTime? safetyCertificationDate,
+  }) {
+    return PlaygroundEquipment(
+      id: id,
+      type: type,
+      latitude: latitude,
+      longitude: longitude,
+      status: status,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      equipmentType: equipmentType ?? this.equipmentType,
+      ageGroup: ageGroup ?? this.ageGroup,
+      safetyCertificationDate:
+          safetyCertificationDate ?? this.safetyCertificationDate,
+    );
+  }
 }

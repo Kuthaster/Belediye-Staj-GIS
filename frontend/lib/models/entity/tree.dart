@@ -48,4 +48,27 @@ class Tree {
       healthStatus: json['healthStatus'],
     );
   }
+
+  Tree copyWith({
+    String? species,
+    DateTime? plantingDate,
+    double? trunkDiameterCm,
+    double? heightM,
+    String? healthStatus,
+  }) {
+    return Tree(
+      id: id,
+      type: type,
+      latitude: latitude,
+      longitude: longitude,
+      status: status,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      species: species ?? this.species,
+      plantingDate: plantingDate ?? this.plantingDate,
+      trunkDiameterCm: trunkDiameterCm ?? this.trunkDiameterCm,
+      heightM: heightM ?? this.heightM,
+      healthStatus: healthStatus ?? this.healthStatus,
+    );
+  }
 }

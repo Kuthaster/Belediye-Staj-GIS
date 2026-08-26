@@ -47,4 +47,25 @@ class LightingPole {
       powerSource: PowerSource.fromApiValue(json['powerSource']),
     );
   }
+
+  LightingPole copyWith({
+    int? wattage,
+    double? heightM,
+    LightType? lightType,
+    PowerSource? powerSource,
+  }) {
+    return LightingPole(
+      id: id,
+      type: type,
+      latitude: latitude,
+      longitude: longitude,
+      status: status,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      wattage: wattage ?? this.wattage,
+      heightM: heightM ?? this.heightM,
+      lightType: lightType ?? this.lightType,
+      powerSource: powerSource ?? this.powerSource,
+    );
+  }
 }

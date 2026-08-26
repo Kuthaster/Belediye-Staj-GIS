@@ -42,4 +42,19 @@ class Bench {
       hasBackrest: json['hasBackrest'],
     );
   }
+
+  Bench copyWith({int? seatCount, String? material, bool? hasBackrest}) {
+    return Bench(
+      id: id,
+      type: type,
+      latitude: latitude,
+      longitude: longitude,
+      status: status,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      seatCount: seatCount ?? this.seatCount,
+      material: material ?? this.material,
+      hasBackrest: hasBackrest ?? this.hasBackrest,
+    );
+  }
 }

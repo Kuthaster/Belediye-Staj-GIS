@@ -46,4 +46,26 @@ class TrashBin {
       collectionFrequencyDays: json['collectionFrequencyDays'],
     );
   }
+
+  TrashBin copyWith({
+    double? volumeLiters,
+    BinType? binType,
+    String? material,
+    int? collectionFrequencyDays,
+  }) {
+    return TrashBin(
+      id: id,
+      type: type,
+      latitude: latitude,
+      longitude: longitude,
+      status: status,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      volumeLiters: volumeLiters ?? this.volumeLiters,
+      binType: binType ?? this.binType,
+      material: material ?? this.material,
+      collectionFrequencyDays:
+          collectionFrequencyDays ?? this.collectionFrequencyDays,
+    );
+  }
 }
