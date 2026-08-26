@@ -5,7 +5,7 @@ class TreeCreate {
   final double? trunkDiameterCm;
   final DateTime? plantingDate;
   final double? heightM;
-  final String? healtStatus;
+  final String? healthStatus;
 
   TreeCreate({
     required this.latitude,
@@ -14,7 +14,7 @@ class TreeCreate {
     this.trunkDiameterCm,
     this.plantingDate,
     this.heightM,
-    this.healtStatus,
+    this.healthStatus,
   });
 
   Map<String, dynamic> toJson() {
@@ -27,7 +27,7 @@ class TreeCreate {
           ? '${plantingDate!.year.toString().padLeft(4, '0')}-${plantingDate!.month.toString().padLeft(2, '0')}-${plantingDate!.day.toString().padLeft(2, '0')}'
           : null,
       'heightM': heightM,
-      'healtStatus': healtStatus,
+      'healthStatus': healthStatus,
     };
   }
 }
