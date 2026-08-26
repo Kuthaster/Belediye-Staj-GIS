@@ -1,5 +1,8 @@
 package com.kutalmis.cografi_nesne_takip.Dto;
 
-public record BenchCreateDTO(Double latitude, Double longitude, Integer seatCount, String material,
-        Boolean hasBackrest) {
+import jakarta.validation.constraints.NotNull;
+
+public record BenchCreateDTO(@NotNull Double latitude, @NotNull Double longitude, @NotNull Integer seatCount,
+                String material,
+                @NotNull Boolean hasBackrest) {
 }

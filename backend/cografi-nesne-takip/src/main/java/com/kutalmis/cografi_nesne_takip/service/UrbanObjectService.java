@@ -53,19 +53,19 @@ public class UrbanObjectService {
     }
 
     public BenchDTO createBench(BenchCreateDTO dto) {
-        Bench bench = new Bench();
+        Bench b = new Bench();
 
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
         Point location = geometryFactory.createPoint(
                 new Coordinate(dto.longitude(), dto.latitude()));
-        bench.setLocation(location);
+        b.setLocation(location);
 
-        bench.setStatus(ObjectStatus.ACTIVE);
-        bench.setSeatCount(dto.seatCount());
-        bench.setMaterial(dto.material());
-        bench.setHasBackrest(dto.hasBackrest());
+        b.setStatus(ObjectStatus.ACTIVE);
+        b.setSeatCount(dto.seatCount());
+        b.setMaterial(dto.material());
+        b.setHasBackrest(dto.hasBackrest());
 
-        Bench saved = urbanObjectRepository.save(bench);
+        Bench saved = urbanObjectRepository.save(b);
 
         return new BenchDTO(
                 saved.getId(), ObjectType.BENCH,
@@ -75,19 +75,21 @@ public class UrbanObjectService {
     }
 
     public TreeDTO createTree(TreeCreateDTO dto) {
-        Tree tree = new Tree();
+        Tree t = new Tree();
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
         Point location = geometryFactory.createPoint(
                 new Coordinate(dto.longitude(), dto.latitude()));
-        tree.setLocation(location);
+        t.setLocation(location);
 
-        tree.setSpecies(dto.species());
-        tree.setTrunkDiameterCm(dto.trunkDiameterCm());
-        tree.setPlantingDate(dto.plantingDate());
-        tree.setHealthStatus(dto.healthStatus());
-        tree.setHeightM(dto.heightM());
+        t.setStatus(ObjectStatus.ACTIVE);
 
-        Tree saved = urbanObjectRepository.save(tree);
+        t.setSpecies(dto.species());
+        t.setTrunkDiameterCm(dto.trunkDiameterCm());
+        t.setPlantingDate(dto.plantingDate());
+        t.setHealthStatus(dto.healthStatus());
+        t.setHeightM(dto.heightM());
+
+        Tree saved = urbanObjectRepository.save(t);
 
         return new TreeDTO(
                 saved.getId(), ObjectType.TREE, saved.getLocation().getY(), saved.getLocation().getX(),
@@ -101,6 +103,7 @@ public class UrbanObjectService {
         Point location = geometryFactory.createPoint(
                 new Coordinate(dto.longitude(), dto.latitude()));
         lp.setLocation(location);
+        lp.setStatus(ObjectStatus.ACTIVE);
 
         lp.setWattage(dto.wattage());
         lp.setHeightM(dto.heightM());
@@ -120,6 +123,7 @@ public class UrbanObjectService {
         Point location = geometryFactory.createPoint(
                 new Coordinate(dto.longitude(), dto.latitude()));
         pe.setLocation(location);
+        pe.setStatus(ObjectStatus.ACTIVE);
 
         pe.setEquipmentType(dto.equipmentType());
         pe.setAgeGroup(dto.ageGroup());
@@ -138,6 +142,7 @@ public class UrbanObjectService {
         Point location = geometryFactory.createPoint(
                 new Coordinate(dto.longitude(), dto.latitude()));
         tb.setLocation(location);
+        tb.setStatus(ObjectStatus.ACTIVE);
 
         tb.setVolumeLiters(dto.volumeLiters());
         tb.setBinType(dto.binType());

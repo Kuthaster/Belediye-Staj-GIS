@@ -27,6 +27,9 @@ public class UrbanObject {
     @PrePersist
     private void onPrePersist() {
         this.createdAt = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = ObjectStatus.ACTIVE;
+        }
     }
 
     @Column(name = "updated_at")

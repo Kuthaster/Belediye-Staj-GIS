@@ -1,0 +1,1 @@
+ALTER TABLE urban_object ALTER COLUMN status SET NOT NULL;
