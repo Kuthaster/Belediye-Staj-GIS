@@ -4,6 +4,7 @@ import 'package:frontend/models/create/playground_equipment_create.dart';
 import 'package:frontend/models/enum/age_group.dart';
 import 'package:frontend/models/enum/equipment_type.dart';
 import 'package:frontend/providers/controller/playground_equipment_create_provider.dart';
+import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:frontend/widgets/location_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/services/error_interceptor.dart';
@@ -60,7 +61,7 @@ class _PlaygroundEquipmentCreateScreenState
       longitude: _location!.longitude,
       safetyCertificationDate: _safetyCertificationDate,
 
-      eqiupmentType: _equipmentType,
+      equipmentType: _equipmentType,
       ageGroup: _ageGroup,
     );
 
@@ -80,7 +81,7 @@ class _PlaygroundEquipmentCreateScreenState
       }
       return;
     }
-
+    ref.invalidate(urbanObjectListProvider);
     if (mounted) Navigator.pop(context);
   }
 
@@ -109,7 +110,7 @@ class _PlaygroundEquipmentCreateScreenState
             DropdownButtonFormField<EquipmentType>(
               initialValue: _equipmentType,
               decoration: const InputDecoration(
-                labelText: 'Ekipman türü',
+                labelText: 'Ekipman tipi',
                 border: OutlineInputBorder(),
               ),
               items: EquipmentType.values.map((equipmentType) {
@@ -127,7 +128,7 @@ class _PlaygroundEquipmentCreateScreenState
               },
               validator: (value) {
                 if (value == null) {
-                  return 'Ekipman türü seçiniz';
+                  return 'Ekipman tipi seçiniz';
                 }
                 return null;
               },

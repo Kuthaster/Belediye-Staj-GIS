@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/models/create/bench_create.dart';
 import 'package:frontend/providers/controller/bench_create_controller.dart';
+import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:frontend/services/error_interceptor.dart';
 import 'package:frontend/widgets/location_picker.dart';
 import 'package:latlong2/latlong.dart';
@@ -65,6 +66,7 @@ class _BenchCreateScreenState extends ConsumerState<BenchCreateScreen> {
       }
       return;
     }
+    ref.invalidate(urbanObjectListProvider);
 
     if (mounted) Navigator.pop(context);
   }

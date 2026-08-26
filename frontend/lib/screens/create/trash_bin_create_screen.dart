@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/models/create/trash_bin_create.dart';
 import 'package:frontend/models/enum/bin_type.dart';
 import 'package:frontend/providers/controller/trash_bin_create_controller.dart';
+import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:frontend/widgets/location_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/providers/controller/tree_create_controller.dart';
@@ -79,6 +80,7 @@ class _TrashBinCreateScreenState extends ConsumerState<TrashBinCreateScreen> {
       }
       return;
     }
+    ref.invalidate(urbanObjectListProvider);
 
     if (mounted) Navigator.pop(context);
   }
@@ -144,7 +146,7 @@ class _TrashBinCreateScreenState extends ConsumerState<TrashBinCreateScreen> {
             DropdownButtonFormField<BinType>(
               initialValue: _binType,
               decoration: const InputDecoration(
-                labelText: 'Teneke türü',
+                labelText: 'Çöp kutusu tipi',
                 border: OutlineInputBorder(),
               ),
               items: BinType.values.map((binType) {
@@ -162,7 +164,7 @@ class _TrashBinCreateScreenState extends ConsumerState<TrashBinCreateScreen> {
               },
               validator: (value) {
                 if (value == null) {
-                  return 'Teneke türü seçiniz';
+                  return 'Çöp kutusu tipi seçiniz';
                 }
                 return null;
               },

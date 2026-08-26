@@ -4,6 +4,7 @@ import 'package:frontend/models/create/lighting_pole_create.dart';
 import 'package:frontend/models/enum/light_type.dart';
 import 'package:frontend/models/enum/power_source.dart';
 import 'package:frontend/providers/controller/lighting_pole_create_controller.dart';
+import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:frontend/widgets/location_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/services/error_interceptor.dart';
@@ -74,6 +75,7 @@ class _LightingPoleCreateScreenState
       }
       return;
     }
+    ref.invalidate(urbanObjectListProvider);
 
     if (mounted) Navigator.pop(context);
   }
