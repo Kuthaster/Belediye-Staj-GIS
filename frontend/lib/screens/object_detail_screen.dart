@@ -36,6 +36,7 @@ class _ObjectDetailScreenState extends ConsumerState<ObjectDetailScreen> {
   dynamic _draft;
   bool _isDirty = false;
   bool _isSaving = false;
+  bool _isDeleting = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +58,18 @@ class _ObjectDetailScreenState extends ConsumerState<ObjectDetailScreen> {
                       ),
                     )
                   : const Icon(Icons.save),
-              onPressed: _isSaving ? null : _saveChanges,
+              onPressed: (_isSaving || _isDeleting) ? null : _saveChanges,
             ),
+          IconButton(
+            icon: _isDeleting
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.delete),
+            onPressed: (_isSaving || _isDeleting) ? null : _confirmDelete,
+          ),
         ],
       ),
       body: detailAsync.when(
@@ -252,7 +263,7 @@ class _ObjectDetailScreenState extends ConsumerState<ObjectDetailScreen> {
       );
     }
 
-    return const Center(child: Text('Unsupported object type'));
+    return const Center(child: Text('Desteklenmeyen cisim türü'));
   }
 
   void _updateDraft(dynamic newDraft) {
@@ -260,6 +271,60 @@ class _ObjectDetailScreenState extends ConsumerState<ObjectDetailScreen> {
       _draft = newDraft;
       _isDirty = true;
     });
+  }
+
+  Future<void> _confirmDelete() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cismi Sil'),
+        content: const Text(
+          'Bu cismi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Vazgeç'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Sil'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      _performDelete();
+    }
+  }
+
+  Future<void> _performDelete() async {
+    setState(() => _isDeleting = true);
+
+    try {
+      final service = ref.read(urbanObjectServiceProvider);
+      await service.deleteUrbanObject(widget.id);
+
+      ref.invalidate(urbanObjectListProvider);
+
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Silindi.')));
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      final message = e is AppException ? e.message : 'Silinemedi.';
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
+      }
+    } finally {
+      if (mounted) setState(() => _isDeleting = false);
+    }
   }
 
   Future<void> _saveChanges() async {
@@ -339,10 +404,10 @@ class _ObjectDetailScreenState extends ConsumerState<ObjectDetailScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Saved.')));
+        ).showSnackBar(const SnackBar(content: Text('Kaydedildi.')));
       }
     } catch (e) {
-      final message = e is AppException ? e.message : 'Failed to save changes.';
+      final message = e is AppException ? e.message : 'Kaydedilemedi:.';
       if (mounted) {
         ScaffoldMessenger.of(
           context,
