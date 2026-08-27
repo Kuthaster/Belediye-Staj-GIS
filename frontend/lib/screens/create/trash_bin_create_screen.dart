@@ -4,7 +4,7 @@ import 'package:frontend/models/create/trash_bin_create.dart';
 import 'package:frontend/models/enum/bin_type.dart';
 import 'package:frontend/providers/controller/trash_bin_create_controller.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
-import 'package:frontend/widgets/location_picker.dart';
+import 'package:frontend/widgets/location_picker_button.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/providers/controller/tree_create_controller.dart';
 import 'package:frontend/services/error_interceptor.dart';
@@ -96,7 +96,7 @@ class _TrashBinCreateScreenState extends ConsumerState<TrashBinCreateScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            LocationPicker(
+            LocationPickerButton(
               value: _location,
               onChanged: (newLocation) =>
                   setState(() => _location = newLocation),

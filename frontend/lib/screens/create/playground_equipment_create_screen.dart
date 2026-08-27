@@ -5,7 +5,7 @@ import 'package:frontend/models/enum/age_group.dart';
 import 'package:frontend/models/enum/equipment_type.dart';
 import 'package:frontend/providers/controller/playground_equipment_create_provider.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
-import 'package:frontend/widgets/location_picker.dart';
+import 'package:frontend/widgets/location_picker_button.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/services/error_interceptor.dart';
 
@@ -96,7 +96,7 @@ class _PlaygroundEquipmentCreateScreenState
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            LocationPicker(
+            LocationPickerButton(
               value: _location,
               onChanged: (newLocation) =>
                   setState(() => _location = newLocation),

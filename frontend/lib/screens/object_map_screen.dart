@@ -42,7 +42,7 @@ class ObjectMapScreen extends ConsumerWidget {
                 child: const Icon(
                   Icons.location_pin,
                   size: 36,
-                  color: Colors.red,
+                  color: Colors.red, //RENK
                 ),
               ),
             );

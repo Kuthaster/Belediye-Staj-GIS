@@ -54,7 +54,7 @@ class ObjectListScreen extends ConsumerWidget {
                 final obj = objects[index - 1];
                 return ListTile(
                   title: Text(obj.type.displayName),
-                  subtitle: Text('Status: ${obj.status.displayName}'),
+                  subtitle: Text('Durum: ${obj.status.displayName}'),
                   onTap: () {
                     showModalBottomSheet(
                       context: context,
