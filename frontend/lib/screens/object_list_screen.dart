@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
-import 'package:frontend/screens/object_detail_screen.dart';
+import 'package:frontend/screens/object_detail_sheet.dart';
 import 'package:frontend/widgets/type_picker_bottom_sheet.dart';
 
 class ObjectListScreen extends ConsumerWidget {
@@ -56,11 +56,10 @@ class ObjectListScreen extends ConsumerWidget {
                   title: Text(obj.type.displayName),
                   subtitle: Text('Status: ${obj.status.displayName}'),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ObjectDetailScreen(id: obj.id),
-                      ),
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => ObjectDetailSheet(id: obj.id),
                     );
                   },
                 );

@@ -4,7 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:frontend/widgets/type_picker_bottom_sheet.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
-import 'package:frontend/screens/object_detail_screen.dart';
+import 'package:frontend/screens/object_detail_sheet.dart';
 
 class ObjectMapScreen extends ConsumerWidget {
   const ObjectMapScreen({super.key});
@@ -19,7 +19,8 @@ class ObjectMapScreen extends ConsumerWidget {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => const TypePickerBottomSheet(),
+            builder: (context) =>
+                const TypePickerBottomSheet(), //TODO bu açılmıyor çöz
           );
         },
       ),
@@ -32,11 +33,10 @@ class ObjectMapScreen extends ConsumerWidget {
               height: 40,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ObjectDetailScreen(id: obj.id),
-                    ),
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) => ObjectDetailSheet(id: obj.id),
                   );
                 },
                 child: const Icon(
