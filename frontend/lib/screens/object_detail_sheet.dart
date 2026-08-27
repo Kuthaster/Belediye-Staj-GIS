@@ -16,11 +16,11 @@ import 'package:frontend/models/enum/equipment_type.dart';
 import 'package:frontend/models/enum/light_type.dart';
 import 'package:frontend/models/enum/power_source.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
-import 'package:frontend/widgets/editable_date_field.dart';
-import 'package:frontend/widgets/editable_enum_field.dart';
-import 'package:frontend/widgets/editable_text_field.dart';
-import 'package:frontend/widgets/editable_number_field.dart';
-import 'package:frontend/widgets/editable_bool_field.dart';
+import 'package:frontend/widgets/editable_fields/editable_date_field.dart';
+import 'package:frontend/widgets/editable_fields/editable_enum_field.dart';
+import 'package:frontend/widgets/editable_fields/editable_text_field.dart';
+import 'package:frontend/widgets/editable_fields/editable_number_field.dart';
+import 'package:frontend/widgets/editable_fields/editable_bool_field.dart';
 import 'package:frontend/services/error_interceptor.dart';
 
 class ObjectDetailSheet extends ConsumerStatefulWidget {
@@ -149,7 +149,7 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
       final lp = _draft as LightingPole;
       return [
         EditableNumberField(
-          label: 'Voltaj',
+          label: 'Watt',
           value: lp.wattage,
           isInt: true,
           onChanged: (w) => _updateDraft(lp.copyWith(wattage: w as int?)),

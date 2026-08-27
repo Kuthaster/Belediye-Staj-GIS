@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:frontend/screens/object_detail_sheet.dart';
-import 'package:frontend/widgets/type_picker_bottom_sheet.dart';
+import 'package:frontend/widgets/create_object_sheet.dart';
+import 'package:frontend/widgets/create_object_tile.dart';
 
 class ObjectListScreen extends ConsumerWidget {
   const ObjectListScreen({super.key});
@@ -19,17 +20,13 @@ class ObjectListScreen extends ConsumerWidget {
             return Center(
               child: Column(
                 children: [
-                  Text(
-                    'Henüz kaydedilen bir cisim yok. Cisim oluşturarak başla.',
-                  ),
-                  ListTile(
-                    title: Text("+"),
-                    subtitle: Text("Yeni Cisim Oluştur"),
-                    onTap: () => showModalBottomSheet(
-                      context: context,
-                      builder: (context) => TypePickerBottomSheet(),
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      'Henüz kaydedilen bir cisim yok. Cisim oluşturarak başla.',
                     ),
                   ),
+                  const CreateObjectTile(),
                 ],
               ),
             );
@@ -40,16 +37,7 @@ class ObjectListScreen extends ConsumerWidget {
               itemCount: objects.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return ListTile(
-                    title: const Text("+"),
-                    subtitle: const Text("Yeni Cisim Oluştur"),
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => const TypePickerBottomSheet(),
-                      );
-                    },
-                  );
+                  return const CreateObjectTile();
                 }
                 final obj = objects[index - 1];
                 return ListTile(

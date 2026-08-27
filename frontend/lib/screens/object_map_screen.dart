@@ -1,29 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:frontend/widgets/type_picker_bottom_sheet.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:frontend/screens/object_detail_sheet.dart';
+import 'package:frontend/widgets/create_object_sheet.dart';
 
-class ObjectMapScreen extends ConsumerWidget {
+class ObjectMapScreen extends ConsumerStatefulWidget {
   const ObjectMapScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ObjectMapScreen> createState() => _ObjectMapScreenState();
+}
+
+class _ObjectMapScreenState extends ConsumerState<ObjectMapScreen> {
+  LatLng? _pendingCreateLocation;
+
+  void _onMapLongPress(TapPosition position, LatLng point) {
+    setState(() => _pendingCreateLocation = point);
+    _openCreateSheet(point);
+  }
+
+  Future<void> _openCreateSheet(LatLng point) async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => CreateObjectSheet(location: point),
+    );
+    if (mounted) {
+      setState(() => _pendingCreateLocation = null);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final objectsAsync = ref.watch(urbanObjectListProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Cisim Haritası')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (context) =>
-                const TypePickerBottomSheet(), //TODO bu açılmıyor çöz
-          );
-        },
-      ),
       body: objectsAsync.when(
         data: (objects) {
           final markers = objects.map((obj) {
@@ -42,18 +56,37 @@ class ObjectMapScreen extends ConsumerWidget {
                 child: const Icon(
                   Icons.location_pin,
                   size: 36,
-                  color: Colors.red, //RENK
+                  color: Colors.red,
                 ),
               ),
             );
           }).toList();
 
+          if (_pendingCreateLocation != null) {
+            markers.add(
+              Marker(
+                point: _pendingCreateLocation!,
+                width: 40,
+                height: 40,
+                child: const Icon(
+                  Icons.add_location,
+                  size: 40,
+                  color: Colors.blue,
+                ),
+              ),
+            );
+          }
+
           final center = objects.isNotEmpty
               ? LatLng(objects.first.latitude, objects.first.longitude)
-              : const LatLng(41.28, 36.33); // fallback center
+              : const LatLng(41.28, 36.33);
 
           return FlutterMap(
-            options: MapOptions(initialCenter: center, initialZoom: 14),
+            options: MapOptions(
+              initialCenter: center,
+              initialZoom: 14,
+              onLongPress: _onMapLongPress,
+            ),
             children: [
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
