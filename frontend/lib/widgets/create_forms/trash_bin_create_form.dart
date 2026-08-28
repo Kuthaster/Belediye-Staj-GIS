@@ -51,6 +51,13 @@ class _TrashBinCreateFormState extends ConsumerState<TrashBinCreateForm> {
       return;
     }
 
+    if (_location == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Lütfen bir konum seçin.')));
+      return;
+    }
+
     final dto = TrashBinCreate(
       latitude: _location!.latitude,
       longitude: _location!.longitude,

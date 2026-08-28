@@ -37,12 +37,14 @@ class Tree {
       latitude: json['latitude'],
       longitude: json['longitude'],
       status: ObjectStatus.fromApiValue(json['status']),
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.parse(json['createdAt'] + 'Z'),
       updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'])
+          ? DateTime.parse(json['updatedAt'] + 'Z')
           : null,
       species: json['species'],
-      plantingDate: DateTime.parse(json['plantingDate']),
+      plantingDate: json['plantingDate'] != null
+          ? DateTime.parse(json['plantingDate'])
+          : null,
       trunkDiameterCm: json['trunkDiameterCm'],
       heightM: json['heightM'],
       healthStatus: json['healthStatus'],

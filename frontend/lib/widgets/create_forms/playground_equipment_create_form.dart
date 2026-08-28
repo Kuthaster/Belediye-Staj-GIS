@@ -36,7 +36,7 @@ class _PlaygroundEquipmentCreateFormState
 
   final _formKey = GlobalKey<FormState>();
   EquipmentType? _equipmentType;
-  AgeGroup _ageGroup = AgeGroup.allAges;
+  AgeGroup? _ageGroup;
   DateTime? _safetyCertificationDate;
 
   @override
@@ -52,13 +52,18 @@ class _PlaygroundEquipmentCreateFormState
       firstDate: DateTime(1900),
       lastDate: now,
     );
-    if (picked != null) {
-      setState(() => _safetyCertificationDate = picked);
-    }
+    setState(() => _safetyCertificationDate = picked);
   }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (_location == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Lütfen bir konum seçin.')));
       return;
     }
 
@@ -153,12 +158,6 @@ class _PlaygroundEquipmentCreateFormState
                   _ageGroup = value;
                 });
               }
-            },
-            validator: (value) {
-              if (value == null) {
-                return 'Yaş aralığı seçiniz';
-              }
-              return null;
             },
           ),
 

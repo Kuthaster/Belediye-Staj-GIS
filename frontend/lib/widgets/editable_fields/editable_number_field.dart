@@ -22,15 +22,20 @@ class _EditableNumberFieldState extends State<EditableNumberField> {
   bool _isEditing = false;
   late TextEditingController _controller;
   String? _error;
+  late FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.value?.toString() ?? '');
+    _focusNode = FocusNode();
+    _focusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -59,6 +64,19 @@ class _EditableNumberFieldState extends State<EditableNumberField> {
     });
   }
 
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus && _isEditing) {
+      _commit();
+    }
+  }
+
+  void _startEditing() {
+    setState(() => _isEditing = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!_isEditing) {
@@ -66,7 +84,7 @@ class _EditableNumberFieldState extends State<EditableNumberField> {
         title: Text(widget.label),
         subtitle: Text(widget.value?.toString() ?? '-'),
         trailing: const Icon(Icons.edit, size: 18),
-        onTap: () => setState(() => _isEditing = true),
+        onTap: _startEditing,
       );
     }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/object_list_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/screens/object_map_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Urban Asset Tracker',
-      home: const ObjectListScreen(),
+      home: const ObjectMapScreen(),
     );
   }
 }

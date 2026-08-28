@@ -45,6 +45,13 @@ class _BenchCreateFormState extends ConsumerState<BenchCreateForm> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
+    if (_location == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Lütfen bir konum seçin.')));
+      return;
+    }
+
     final dto = BenchCreate(
       latitude: _location!.latitude,
       longitude: _location!.longitude,

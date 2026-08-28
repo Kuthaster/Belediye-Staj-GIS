@@ -4,7 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:frontend/screens/object_detail_sheet.dart';
-import 'package:frontend/widgets/create_object_sheet.dart';
+import 'package:frontend/widgets/create/create_object_sheet.dart';
 
 class ObjectMapScreen extends ConsumerStatefulWidget {
   const ObjectMapScreen({super.key});

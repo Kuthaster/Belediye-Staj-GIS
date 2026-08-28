@@ -1,6 +1,7 @@
 package com.kutalmis.cografi_nesne_takip.entity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import org.locationtech.jts.geom.Point;
 import jakarta.persistence.*;
@@ -26,7 +27,7 @@ public class UrbanObject {
 
     @PrePersist
     private void onPrePersist() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now(ZoneOffset.UTC);
         if (this.status == null) {
             this.status = ObjectStatus.ACTIVE;
         }
@@ -37,7 +38,7 @@ public class UrbanObject {
 
     @PreUpdate
     private void onPreUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now(ZoneOffset.UTC);
     }
 
     public UrbanObject() {

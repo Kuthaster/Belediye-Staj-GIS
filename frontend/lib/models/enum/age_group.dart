@@ -11,10 +11,11 @@ enum AgeGroup {
 
   const AgeGroup(this.displayName, this.apiValue);
 
-  static AgeGroup fromApiValue(String value) {
+  static AgeGroup? fromApiValue(String? value) {
+    if (value == null) return null;
     return AgeGroup.values.firstWhere(
       (e) => e.apiValue == value,
-      orElse: () => throw ArgumentError('Bilinmeyen Cisim Türü: $value'),
+      orElse: () => throw ArgumentError('Bilinmeyen yaş aralığı: $value'),
     );
   }
 }

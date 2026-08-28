@@ -27,9 +27,9 @@ class UrbanObjectSummary {
       latitude: json['latitude'],
       longitude: json['longitude'],
       status: ObjectStatus.fromApiValue(json['status']),
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.parse(json['createdAt'] + 'Z'),
       updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'])
+          ? DateTime.parse(json['updatedAt'] + 'Z')
           : null,
     );
   }

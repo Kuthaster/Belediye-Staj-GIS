@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "playground_equipment")
-@DiscriminatorValue("PL AYGROUND_EQUIPMENT")
+@DiscriminatorValue("PLAYGROUND_EQUIPMENT")
 public class PlaygroundEquipment extends UrbanObject {
     @Enumerated(EnumType.STRING)
     @Column(name = "equipment_type", nullable = false)

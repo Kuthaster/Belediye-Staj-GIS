@@ -35,13 +35,17 @@ class PlaygroundEquipment {
       latitude: json['latitude'],
       longitude: json['longitude'],
       status: ObjectStatus.fromApiValue(json['status']),
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.parse(json['createdAt'] + 'Z'),
       updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'])
+          ? DateTime.parse(json['updatedAt'] + 'Z')
           : null,
       equipmentType: EquipmentType.fromApiValue(json['equipmentType']),
-      ageGroup: AgeGroup.fromApiValue(json['ageGroup']),
-      safetyCertificationDate: DateTime.parse(json['safetyCertificationDate']),
+      ageGroup: json['ageGroup'] != null
+          ? AgeGroup.fromApiValue(json['ageGroup'])
+          : null,
+      safetyCertificationDate: json['safetyCertificationDate'] != null
+          ? DateTime.parse(json['safetyCertificationDate'])
+          : null,
     );
   }
 

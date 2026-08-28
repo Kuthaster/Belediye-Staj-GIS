@@ -16,12 +16,14 @@ import 'package:frontend/models/enum/equipment_type.dart';
 import 'package:frontend/models/enum/light_type.dart';
 import 'package:frontend/models/enum/power_source.dart';
 import 'package:frontend/providers/urban_object_providers.dart';
+import 'package:frontend/widgets/display/date_display_field.dart';
 import 'package:frontend/widgets/editable_fields/editable_date_field.dart';
 import 'package:frontend/widgets/editable_fields/editable_enum_field.dart';
 import 'package:frontend/widgets/editable_fields/editable_text_field.dart';
 import 'package:frontend/widgets/editable_fields/editable_number_field.dart';
 import 'package:frontend/widgets/editable_fields/editable_bool_field.dart';
 import 'package:frontend/services/error_interceptor.dart';
+import 'package:frontend/widgets/display/status_display_chip.dart';
 
 class ObjectDetailSheet extends ConsumerStatefulWidget {
   final int id;
@@ -124,6 +126,9 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
     if (_draft is Bench) {
       final b = _draft as Bench;
       return [
+        StatusDisplayChip(value: b.status),
+        DateDisplayField(label: "Oluşturulma Tarihi", date: b.createdAt),
+        DateDisplayField(label: "Güncellenme Tarihi", date: b.updatedAt),
         EditableNumberField(
           label: 'Koltuk Sayısı',
           value: b.seatCount,
@@ -148,6 +153,9 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
     if (_draft is LightingPole) {
       final lp = _draft as LightingPole;
       return [
+        DateDisplayField(label: "Oluşturulma Tarihi", date: lp.createdAt),
+        DateDisplayField(label: "Güncellenme Tarihi", date: lp.updatedAt),
+        StatusDisplayChip(value: lp.status),
         EditableNumberField(
           label: 'Watt',
           value: lp.wattage,
@@ -183,6 +191,9 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
     if (_draft is Tree) {
       final t = _draft as Tree;
       return [
+        DateDisplayField(label: "Oluşturulma Tarihi", date: t.createdAt),
+        DateDisplayField(label: "Güncellenme Tarihi", date: t.updatedAt),
+        StatusDisplayChip(value: t.status),
         EditableTextField(
           label: 'Tür',
           value: t.species,
@@ -222,6 +233,9 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
     if (_draft is TrashBin) {
       final tb = _draft as TrashBin;
       return [
+        DateDisplayField(label: "Oluşturulma Tarihi", date: tb.createdAt),
+        DateDisplayField(label: "Güncellenme Tarihi", date: tb.updatedAt),
+        StatusDisplayChip(value: tb.status),
         EditableEnumField(
           label: 'Çöp kutusu tipi',
           value: tb.binType,
@@ -263,6 +277,9 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
     if (_draft is PlaygroundEquipment) {
       final pe = _draft as PlaygroundEquipment;
       return [
+        DateDisplayField(label: "Oluşturulma Tarihi", date: pe.createdAt),
+        DateDisplayField(label: "Güncellenme Tarihi", date: pe.updatedAt),
+        StatusDisplayChip(value: pe.status),
         EditableEnumField(
           label: 'Ekipman Tipi',
           value: pe.equipmentType,

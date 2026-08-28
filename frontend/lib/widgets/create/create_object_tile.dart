@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/widgets/create_object_sheet.dart';
+import 'package:frontend/widgets/create/create_object_sheet.dart';
 
 class CreateObjectTile extends StatelessWidget {
   const CreateObjectTile({super.key});

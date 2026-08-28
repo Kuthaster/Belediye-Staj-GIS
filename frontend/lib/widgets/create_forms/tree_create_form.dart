@@ -65,6 +65,13 @@ class _TreeCreateFormState extends ConsumerState<TreeCreateForm> {
       return;
     }
 
+    if (_location == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Lütfen bir konum seçin.')));
+      return;
+    }
+
     final dto = TreeCreate(
       latitude: _location!.latitude,
       longitude: _location!.longitude,
