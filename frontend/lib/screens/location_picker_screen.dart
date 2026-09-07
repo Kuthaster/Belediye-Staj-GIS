@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/providers/urban_object_providers.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 
-class LocationPickerScreen extends StatefulWidget {
+class LocationPickerScreen extends ConsumerStatefulWidget {
   final LatLng? initialLocation;
 
   const LocationPickerScreen({super.key, this.initialLocation});
 
   @override
-  State<LocationPickerScreen> createState() => _LocationPickerScreenState();
+  ConsumerState<LocationPickerScreen> createState() =>
+      _LocationPickerScreenState();
 }
 
-class _LocationPickerScreenState extends State<LocationPickerScreen> {
+class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
   LatLng? _picked;
   bool _isLocating = false;
 
@@ -68,7 +71,14 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final center = _picked ?? widget.initialLocation ?? _fallbackCenter;
+    final objectsAsync = ref.watch(urbanObjectListProvider);
+    final dataFallback = objectsAsync.maybeWhen(
+      data: (objects) => objects.isNotEmpty
+          ? LatLng(objects.first.latitude, objects.first.longitude)
+          : _fallbackCenter,
+      orElse: () => _fallbackCenter,
+    );
+    final center = _picked ?? widget.initialLocation ?? dataFallback;
 
     return Scaffold(
       appBar: AppBar(
@@ -78,7 +88,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
             onPressed: _picked == null
                 ? null
                 : () => Navigator.pop(context, _picked),
-            child: const Text('Onayla', style: TextStyle(color: Colors.white)),
+            child: const Text('Onayla'),
           ),
         ],
       ),

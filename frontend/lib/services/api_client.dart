@@ -1,12 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/services/auth_interceptor.dart';
+
+const authTokenKey = 'auth_token';
+const secureStorage = FlutterSecureStorage();
 
 class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
+
   late final Dio dio;
 
-  factory ApiClient() {
-    return _instance;
-  }
+  factory ApiClient() => _instance;
 
   ApiClient._internal() {
     dio = Dio(
@@ -21,7 +25,16 @@ class ApiClient {
       ),
     );
 
-    dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+    dio.interceptors.add(AuthInterceptor(secureStorage));
+    dio.interceptors.add(
+      LogInterceptor(
+        request: true,
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        error: true,
+      ),
+    );
   }
 }
 

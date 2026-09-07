@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/enum/object_type.dart';
-import 'package:frontend/widgets/create_forms/bench_create_form.dart';
-import 'package:frontend/widgets/create_forms/trash_bin_create_form.dart';
-import 'package:frontend/widgets/create_forms/lighting_pole_create_form.dart';
-import 'package:frontend/widgets/create_forms/playground_equipment_create_form.dart';
-import 'package:frontend/widgets/create_forms/tree_create_form.dart';
+import 'package:frontend/widgets/create/create_forms/bench_create_form.dart';
+import 'package:frontend/widgets/create/create_forms/trash_bin_create_form.dart';
+import 'package:frontend/widgets/create/create_forms/lighting_pole_create_form.dart';
+import 'package:frontend/widgets/create/create_forms/playground_equipment_create_form.dart';
+import 'package:frontend/widgets/create/create_forms/tree_create_form.dart';
 import 'package:latlong2/latlong.dart';
 
 class CreateObjectSheet extends StatefulWidget {

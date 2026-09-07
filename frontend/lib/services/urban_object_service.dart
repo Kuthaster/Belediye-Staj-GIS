@@ -10,7 +10,7 @@ import 'package:frontend/models/entity/trash_bin.dart';
 import 'package:frontend/models/create/trash_bin_create.dart';
 import 'package:frontend/models/entity/tree.dart';
 import 'package:frontend/models/create/tree_create.dart';
-import 'package:frontend/models/urban_object_summary.dart';
+import 'package:frontend/models/entity/urban_object_summary.dart';
 
 class UrbanObjectService {
   final Dio _dio;

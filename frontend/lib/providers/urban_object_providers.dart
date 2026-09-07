@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers/core/dio_provider.dart';
 import 'package:frontend/services/urban_object_service.dart';
-import 'package:frontend/models/urban_object_summary.dart';
+import 'package:frontend/models/entity/urban_object_summary.dart';
 
 final urbanObjectServiceProvider = Provider<UrbanObjectService>((ref) {
   return UrbanObjectService(dio: ref.watch(dioProvider));
