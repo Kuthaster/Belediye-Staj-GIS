@@ -4,9 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/exception/api_exception.dart';
 import 'package:frontend/models/create/user_create.dart';
 import 'package:frontend/models/enum/role.dart';
-import 'package:frontend/providers/user.provider.dart';
-import 'package:frontend/services/user_service.dart';
-import 'package:frontend/widgets/user_tile.dart';
+import 'package:frontend/providers/object/user_providers.dart';
+import 'package:frontend/widgets/create/admin/users/user_tile.dart';
 
 /// Opens the "create user" dialog and, on success, invalidates
 /// [adminUsersProvider] so the list refreshes. Call this from wherever

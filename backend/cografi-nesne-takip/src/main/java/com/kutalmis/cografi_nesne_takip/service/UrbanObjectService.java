@@ -1,5 +1,6 @@
 package com.kutalmis.cografi_nesne_takip.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.locationtech.jts.geom.Coordinate;
@@ -14,6 +15,7 @@ import com.kutalmis.cografi_nesne_takip.Dto.LightingPoleCreateDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.LightingPoleDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.PlaygroundEquipmentCreateDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.PlaygroundEquipmentDTO;
+import com.kutalmis.cografi_nesne_takip.Dto.StatusUpdateDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.TrashBinCreateDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.TrashBinDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.TreeCreateDTO;
@@ -34,9 +36,11 @@ import com.kutalmis.cografi_nesne_takip.repository.UrbanObjectRepository;
 @Service
 public class UrbanObjectService {
     private final UrbanObjectRepository urbanObjectRepository;
+    private final ObjectPhotoService objectPhotoService;
 
-    public UrbanObjectService(UrbanObjectRepository urbanObjectRepository) {
+    public UrbanObjectService(UrbanObjectRepository urbanObjectRepository, ObjectPhotoService objectPhotoService) {
         this.urbanObjectRepository = urbanObjectRepository;
+        this.objectPhotoService = objectPhotoService;
     }
 
     public List<UrbanObjectSummaryDTO> getAllUrbanObjects() {
@@ -156,12 +160,15 @@ public class UrbanObjectService {
                 saved.getVolumeLiters(), saved.getBinType(), saved.getMaterial(), saved.getCollectionFrequencyDays());
     }
 
-    public void deleteUrbanObject(Long id) { // hibernate birleşik miraslanmış masaları kendisi sildiriyor
-        if (!urbanObjectRepository.existsById(id)) {
-            throw new ObjectNotFoundException(id);
+    public void deleteUrbanObject(Long id) {
+        UrbanObject obj = urbanObjectRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(id));
+        try {
+            objectPhotoService.deletePhoto(id);
+        } catch (IOException e) {
+            throw new RuntimeException("Fotoğraf silinemedi", e);
         }
-
-        urbanObjectRepository.deleteById(id);
+        urbanObjectRepository.delete(obj);
     }
 
     public TrashBinDTO updateTrashBin(Long id, TrashBinCreateDTO request) {
@@ -297,6 +304,23 @@ public class UrbanObjectService {
                 saved.getLocation().getY(), saved.getLocation().getX(),
                 saved.getStatus(), saved.getCreatedAt(), saved.getUpdatedAt(),
                 saved.getSeatCount(), saved.getMaterial(), saved.getHasBackrest());
+    }
+
+    public UrbanObjectSummaryDTO updateStatus(Long id, StatusUpdateDTO dto) {
+        UrbanObject existing = urbanObjectRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException(id));
+
+        existing.setStatus(dto.status());
+
+        UrbanObject saved = urbanObjectRepository.save(existing);
+        return new UrbanObjectSummaryDTO(
+                saved.getId(),
+                resolveType(saved),
+                saved.getLocation().getY(),
+                saved.getLocation().getX(),
+                saved.getStatus(),
+                saved.getCreatedAt(),
+                saved.getUpdatedAt());
     }
 
     // private helpers

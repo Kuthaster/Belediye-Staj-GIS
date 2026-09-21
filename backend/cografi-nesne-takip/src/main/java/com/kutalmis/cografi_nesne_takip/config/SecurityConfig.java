@@ -2,6 +2,7 @@ package com.kutalmis.cografi_nesne_takip.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -41,7 +42,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/auth/forgot-password").permitAll()
+                        .requestMatchers("/api/objects/{id}/photo").authenticated()
+                        .requestMatchers("/api/objects/{id}/photo/revert").hasAnyRole("ADMIN", "FIELD_WORKER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/objects/{id}/status")
+                        .hasAnyRole("ADMIN", "FIELD_SUPERVISOR")
                         .requestMatchers("/api/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

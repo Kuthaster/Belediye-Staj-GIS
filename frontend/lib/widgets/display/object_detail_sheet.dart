@@ -14,22 +14,24 @@ import 'package:frontend/models/enum/age_group.dart';
 import 'package:frontend/models/enum/bin_type.dart';
 import 'package:frontend/models/enum/equipment_type.dart';
 import 'package:frontend/models/enum/light_type.dart';
+import 'package:frontend/models/enum/object_status.dart';
 import 'package:frontend/models/enum/power_source.dart';
-import 'package:frontend/providers/urban_object_providers.dart';
+import 'package:frontend/providers/core/auth_provider.dart';
+import 'package:frontend/providers/object/urban_object_providers.dart';
 import 'package:frontend/widgets/display/date_display_field.dart';
-import 'package:frontend/widgets/editable_fields/editable_date_field.dart';
-import 'package:frontend/widgets/editable_fields/editable_enum_field.dart';
-import 'package:frontend/widgets/editable_fields/editable_text_field.dart';
-import 'package:frontend/widgets/editable_fields/editable_number_field.dart';
-import 'package:frontend/widgets/editable_fields/editable_bool_field.dart';
+import 'package:frontend/widgets/display/editable_fields/editable_date_field.dart';
+import 'package:frontend/widgets/display/editable_fields/editable_enum_field.dart';
+import 'package:frontend/widgets/display/editable_fields/editable_text_field.dart';
+import 'package:frontend/widgets/display/editable_fields/editable_number_field.dart';
+import 'package:frontend/widgets/display/editable_fields/editable_bool_field.dart';
 import 'package:frontend/services/error_interceptor.dart';
+import 'package:frontend/widgets/display/photo_section.dart';
 import 'package:frontend/widgets/display/status_display_chip.dart';
 
 class ObjectDetailSheet extends ConsumerStatefulWidget {
   final int id;
 
   const ObjectDetailSheet({super.key, required this.id});
-
   @override
   ConsumerState<ObjectDetailSheet> createState() => _ObjectDetailSheetState();
 }
@@ -39,6 +41,7 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
   bool _isDirty = false;
   bool _isSaving = false;
   bool _isDeleting = false;
+  bool _isUpdatingStatus = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +72,10 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
   }
 
   Widget _buildContent(ScrollController scrollController) {
+    final user = ref.watch(authProvider).value;
+    final canDelete = user != null && user.role.canDelete;
+    final canEditPhoto = user != null && user.role.canEditPhoto;
+
     return Column(
       children: [
         Padding(
@@ -98,16 +105,17 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
                       : const Icon(Icons.save),
                   onPressed: (_isSaving || _isDeleting) ? null : _saveChanges,
                 ),
-              IconButton(
-                icon: _isDeleting
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.delete),
-                onPressed: (_isSaving || _isDeleting) ? null : _confirmDelete,
-              ),
+              if (canDelete)
+                IconButton(
+                  icon: _isDeleting
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.delete),
+                  onPressed: (_isSaving || _isDeleting) ? null : _confirmDelete,
+                ),
             ],
           ),
         ),
@@ -115,7 +123,11 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
           child: ListView(
             controller: scrollController,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            children: _buildFields(),
+            children: [
+              PhotoSection(objectId: widget.id, canEdit: canEditPhoto),
+              const Divider(),
+              ..._buildFields(),
+            ],
           ),
         ),
       ],
@@ -123,10 +135,17 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
   }
 
   List<Widget> _buildFields() {
+    final user = ref.watch(authProvider).value;
+    final canChangeStatus = user != null && user.role.canChangeStatus;
+
     if (_draft is Bench) {
       final b = _draft as Bench;
       return [
-        StatusDisplayChip(value: b.status),
+        StatusDisplayChip(
+          value: b.status,
+          isUpdating: _isUpdatingStatus,
+          onChanged: canChangeStatus ? _changeStatus : null,
+        ),
         DateDisplayField(label: "Oluşturulma Tarihi", date: b.createdAt),
         DateDisplayField(label: "Güncellenme Tarihi", date: b.updatedAt),
         EditableNumberField(
@@ -155,7 +174,11 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
       return [
         DateDisplayField(label: "Oluşturulma Tarihi", date: lp.createdAt),
         DateDisplayField(label: "Güncellenme Tarihi", date: lp.updatedAt),
-        StatusDisplayChip(value: lp.status),
+        StatusDisplayChip(
+          value: lp.status,
+          isUpdating: _isUpdatingStatus,
+          onChanged: canChangeStatus ? _changeStatus : null,
+        ),
         EditableNumberField(
           label: 'Watt',
           value: lp.wattage,
@@ -193,7 +216,11 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
       return [
         DateDisplayField(label: "Oluşturulma Tarihi", date: t.createdAt),
         DateDisplayField(label: "Güncellenme Tarihi", date: t.updatedAt),
-        StatusDisplayChip(value: t.status),
+        StatusDisplayChip(
+          value: t.status,
+          isUpdating: _isUpdatingStatus,
+          onChanged: canChangeStatus ? _changeStatus : null,
+        ),
         EditableTextField(
           label: 'Tür',
           value: t.species,
@@ -235,7 +262,11 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
       return [
         DateDisplayField(label: "Oluşturulma Tarihi", date: tb.createdAt),
         DateDisplayField(label: "Güncellenme Tarihi", date: tb.updatedAt),
-        StatusDisplayChip(value: tb.status),
+        StatusDisplayChip(
+          value: tb.status,
+          isUpdating: _isUpdatingStatus,
+          onChanged: canChangeStatus ? _changeStatus : null,
+        ),
         EditableEnumField(
           label: 'Çöp kutusu tipi',
           value: tb.binType,
@@ -279,7 +310,11 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
       return [
         DateDisplayField(label: "Oluşturulma Tarihi", date: pe.createdAt),
         DateDisplayField(label: "Güncellenme Tarihi", date: pe.updatedAt),
-        StatusDisplayChip(value: pe.status),
+        StatusDisplayChip(
+          value: pe.status,
+          isUpdating: _isUpdatingStatus,
+          onChanged: canChangeStatus ? _changeStatus : null,
+        ),
         EditableEnumField(
           label: 'Ekipman Tipi',
           value: pe.equipmentType,
@@ -458,6 +493,58 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
       }
     } finally {
       if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  Future<void> _changeStatus(ObjectStatus newStatus) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Durumu Değiştir'),
+        content: Text(
+          'Durumu "${newStatus.displayName}" olarak değiştirmek istediğinizden emin misiniz?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Vazgeç'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Değiştir'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    setState(() => _isUpdatingStatus = true);
+
+    try {
+      final service = ref.read(urbanObjectServiceProvider);
+      await service.updateStatus(widget.id, newStatus);
+
+      setState(() {
+        _draft = _draft.copyWith(status: newStatus);
+      });
+
+      ref.invalidate(urbanObjectListProvider);
+
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Durum güncellendi.')));
+      }
+    } catch (e) {
+      final message = e is AppException ? e.message : 'Durum güncellenemedi.';
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
+      }
+    } finally {
+      if (mounted) setState(() => _isUpdatingStatus = false);
     }
   }
 }

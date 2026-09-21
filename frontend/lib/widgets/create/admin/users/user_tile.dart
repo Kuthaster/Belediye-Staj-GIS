@@ -6,7 +6,7 @@ import 'package:frontend/exception/api_exception.dart';
 import 'package:frontend/models/entity/user_response.dart';
 import 'package:frontend/models/enum/role.dart';
 import 'package:frontend/models/user_update.dart';
-import 'package:frontend/providers/user.provider.dart';
+import 'package:frontend/providers/object/user_providers.dart';
 import 'package:frontend/services/user_service.dart';
 
 class UserTile extends ConsumerStatefulWidget {

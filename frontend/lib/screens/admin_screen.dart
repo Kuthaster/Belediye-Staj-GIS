@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/widgets/account/profile_drawer.dart';
-import 'package:frontend/widgets/user_list.dart';
+import 'package:frontend/widgets/create/admin/users/user_list.dart';
 
 class AdminScreen extends ConsumerWidget {
   const AdminScreen({super.key});

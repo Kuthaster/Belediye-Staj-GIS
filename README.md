@@ -24,14 +24,16 @@ Migrasyon: Flyway
    \c urbanassets
    CREATE EXTENSION IF NOT EXISTS postgis;
    ```
-2. `backend/cografi-nesne-takip/src/main/resources/application-example.properties` dosyasındaki değerleri `backend/cografi-nesne-takip/src/main/resources/application.properties (committe yok)` konumuna yapıştırıp yerel değerlerinizi girin (Veritabanı kullanıcı adı ve şifresi vs.)
+2. `backend/cografi-nesne-takip/src/main/resources/application-example.properties` dosyasındaki değerleri `backend/cografi-nesne-takip/src/main/resources/application.properties (committe yok)` konumuna yapıştırıp yerel değerlerinizi girin (Veritabanı kullanıcı adı ve şifresi vs.) $ ile başlayan değerler .vscode/launch.json'daki env değerlerine bakıyor, isterseniz böyle yapmaktansa direk değerleri girebilirsiniz
 
-3. Backendi çalıştırın:
+3.Cisim Fotoğraflarının olacağı klasörü oluşturup application.properties'e eklemeyi unutmayın.
+
+4. Backendi çalıştırın:
    ```bash
    cd backend/cografi-nesne-takip
    ./mvnw spring-boot:run
    ```
-   Flyway migrasyonları otomatik olarak halledecek. The API `http://localhost:8080` de çalışacak.
+   Flyway migrasyonları otomatik olarak halledecek. API `http://localhost:8080` de çalışacak.
 
 ## Frontend Kurulumu
 

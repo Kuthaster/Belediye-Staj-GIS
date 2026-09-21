@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/models/change_password.dart';
-import 'package:frontend/providers/user.provider.dart';
+import 'package:frontend/providers/object/user_providers.dart';
 
 class ChangePasswordForm extends ConsumerStatefulWidget {
   const ChangePasswordForm({super.key});

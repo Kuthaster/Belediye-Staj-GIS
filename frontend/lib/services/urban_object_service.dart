@@ -3,6 +3,7 @@ import 'package:frontend/models/entity/bench.dart';
 import 'package:frontend/models/create/bench_create.dart';
 import 'package:frontend/models/entity/lighting_pole.dart';
 import 'package:frontend/models/create/lighting_pole_create.dart';
+import 'package:frontend/models/enum/object_status.dart';
 import 'package:frontend/models/enum/object_type.dart';
 import 'package:frontend/models/entity/playground_equipment.dart';
 import 'package:frontend/models/create/playground_equipment_create.dart';
@@ -118,5 +119,9 @@ class UrbanObjectService {
       data: dto.toJson(),
     );
     return LightingPole.fromJson(response.data);
+  }
+
+  Future<void> updateStatus(int id, ObjectStatus status) async {
+    await _dio.patch('/objects/$id/status', data: {'status': status.apiValue});
   }
 }

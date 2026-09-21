@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/models/enum/role.dart';
 import 'package:frontend/providers/core/auth_provider.dart';
-import 'package:frontend/providers/user.provider.dart';
 import 'package:frontend/screens/admin_screen.dart';
 import 'package:frontend/screens/object_list_screen.dart';
 import 'package:frontend/screens/object_map_screen.dart';
@@ -11,11 +9,10 @@ import 'package:frontend/widgets/account/profile_drawer.dart';
 class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
 
-  bool _isAdmin(Role role) => role.apiValue.contains('ADMIN');
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authProvider).value;
-    final isAdmin = user != null && _isAdmin(user.role);
+    final isAdmin = user != null && user.role.isAdmin;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Coğrafi Nesne Takip Sistemi')),
@@ -28,8 +25,10 @@ class MainScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              iconSize: 124,
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                shape: ContinuousRectangleBorder(),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -38,10 +37,19 @@ class MainScreen extends ConsumerWidget {
                   ),
                 );
               },
-              icon: Icon(Icons.map),
+              child: Column(
+                children: [
+                  Icon(Icons.map, size: 124),
+                  SizedBox(height: 6),
+                  Text("Harita"),
+                ],
+              ),
             ),
-            IconButton(
-              iconSize: 124,
+            SizedBox(height: 20),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                shape: ContinuousRectangleBorder(),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -50,11 +58,20 @@ class MainScreen extends ConsumerWidget {
                   ),
                 );
               },
-              icon: Icon(Icons.list_alt),
+              child: Column(
+                children: [
+                  Icon(Icons.list_alt, size: 124),
+                  SizedBox(height: 6),
+                  Text("Cisim Listesi"),
+                ],
+              ),
             ),
+            SizedBox(height: 20),
             if (isAdmin)
-              IconButton(
-                iconSize: 124,
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  shape: ContinuousRectangleBorder(),
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -63,7 +80,13 @@ class MainScreen extends ConsumerWidget {
                     ),
                   );
                 },
-                icon: Icon(Icons.supervisor_account),
+                child: Column(
+                  children: [
+                    Icon(Icons.supervisor_account, size: 124),
+                    SizedBox(height: 6),
+                    Text("Kullanıcı Yönetimi"),
+                  ],
+                ),
               ),
           ],
         ),

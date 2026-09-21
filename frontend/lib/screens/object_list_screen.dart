@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers/urban_object_providers.dart';
-import 'package:frontend/screens/object_detail_sheet.dart';
+import 'package:frontend/providers/object/urban_object_providers.dart';
+import 'package:frontend/widgets/display/object_detail_sheet.dart';
 import 'package:frontend/widgets/account/profile_drawer.dart';
 import 'package:frontend/widgets/create/create_object_tile.dart';
-import 'package:frontend/widgets/account/profile_avatar_widget.dart';
 
 class ObjectListScreen extends ConsumerWidget {
   const ObjectListScreen({super.key});
