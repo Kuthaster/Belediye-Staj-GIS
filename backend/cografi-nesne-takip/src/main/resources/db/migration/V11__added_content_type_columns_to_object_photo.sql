@@ -1,0 +1,1 @@
+ALTER TABLE object_photo ADD COLUMN previous_content_type VARCHAR(50);

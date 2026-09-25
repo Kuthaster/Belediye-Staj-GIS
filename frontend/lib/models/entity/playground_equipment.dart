@@ -50,6 +50,7 @@ class PlaygroundEquipment {
   }
 
   PlaygroundEquipment copyWith({
+    ObjectStatus? status,
     EquipmentType? equipmentType,
     AgeGroup? ageGroup,
     DateTime? safetyCertificationDate,
@@ -59,7 +60,7 @@ class PlaygroundEquipment {
       type: type,
       latitude: latitude,
       longitude: longitude,
-      status: status,
+      status: status ?? this.status,
       createdAt: createdAt,
       updatedAt: updatedAt,
       equipmentType: equipmentType ?? this.equipmentType,

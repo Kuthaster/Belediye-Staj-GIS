@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 
 @PreAuthorize("isAuthenticated()")
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/users/profile")
 public class UserController {
 
     private final UserService userService;
@@ -27,13 +27,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/profile")
+    @GetMapping("")
     public UserResponseDTO getMyProfile(Principal principal) {
         String email = principal.getName();
         return userService.getUserProfileByEmail(email);
     }
 
-    @PatchMapping("/profile/password")
+    @PatchMapping("/password")
     public void changePassword(Principal principal, @Valid @RequestBody ChangePasswordDTO dto) {
 
         User caller = userService.getUserEntityByEmail(principal.getName());

@@ -530,6 +530,7 @@ class _ObjectDetailSheetState extends ConsumerState<ObjectDetailSheet> {
       });
 
       ref.invalidate(urbanObjectListProvider);
+      ref.invalidate(urbanObjectDetailProvider(widget.id));
 
       if (mounted) {
         ScaffoldMessenger.of(

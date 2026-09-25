@@ -1,6 +1,7 @@
 package com.kutalmis.cografi_nesne_takip.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kutalmis.cografi_nesne_takip.Dto.BenchCreateDTO;
@@ -14,11 +15,17 @@ import com.kutalmis.cografi_nesne_takip.Dto.TrashBinDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.TreeCreateDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.TreeDTO;
 import com.kutalmis.cografi_nesne_takip.Dto.UrbanObjectSummaryDTO;
+import com.kutalmis.cografi_nesne_takip.entity.ObjectStatus;
+import com.kutalmis.cografi_nesne_takip.entity.ObjectType;
 import com.kutalmis.cografi_nesne_takip.service.UrbanObjectService;
 import com.kutalmis.cografi_nesne_takip.Dto.StatusUpdateDTO;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,9 +48,17 @@ public class UrbanObjectController {
     }
 
     @GetMapping()
-    public List<UrbanObjectSummaryDTO> getAllObjects() {
-        return urbanObjectService.getAllUrbanObjects();
-    }
+public List<UrbanObjectSummaryDTO> getAllObjects(
+        @RequestParam (required = false) ObjectType type,
+        @RequestParam(required = false) ObjectStatus status,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdFrom,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdTo) {
+
+    LocalDateTime from = createdFrom != null ? createdFrom.atStartOfDay() : null;
+    LocalDateTime to = createdTo != null ? createdTo.atTime(LocalTime.MAX) : null;
+
+    return urbanObjectService.searchUrbanObjects(type, status, from, to);
+}
 
     @GetMapping("/{id}")
     public Object getObjectById(@PathVariable Long id) {

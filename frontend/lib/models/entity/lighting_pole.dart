@@ -49,6 +49,7 @@ class LightingPole {
   }
 
   LightingPole copyWith({
+    ObjectStatus? status,
     int? wattage,
     double? heightM,
     LightType? lightType,
@@ -59,7 +60,7 @@ class LightingPole {
       type: type,
       latitude: latitude,
       longitude: longitude,
-      status: status,
+      status: status ?? this.status,
       createdAt: createdAt,
       updatedAt: updatedAt,
       wattage: wattage ?? this.wattage,

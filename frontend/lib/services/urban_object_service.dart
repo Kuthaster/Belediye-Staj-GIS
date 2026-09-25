@@ -12,14 +12,20 @@ import 'package:frontend/models/create/trash_bin_create.dart';
 import 'package:frontend/models/entity/tree.dart';
 import 'package:frontend/models/create/tree_create.dart';
 import 'package:frontend/models/entity/urban_object_summary.dart';
+import 'package:frontend/models/filter/object_filter.dart';
 
 class UrbanObjectService {
   final Dio _dio;
 
   UrbanObjectService({required this._dio});
 
-  Future<List<UrbanObjectSummary>> getAllUrbanObjects() async {
-    final response = await _dio.get('/objects');
+  Future<List<UrbanObjectSummary>> getAllUrbanObjects([
+    ObjectFilter? filter,
+  ]) async {
+    final response = await _dio.get(
+      '/objects',
+      queryParameters: filter?.toQueryParams(),
+    );
     return (response.data as List)
         .map((item) => UrbanObjectSummary.fromJson(item))
         .toList();

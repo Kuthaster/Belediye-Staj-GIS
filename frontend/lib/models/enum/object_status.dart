@@ -1,7 +1,7 @@
 enum ObjectStatus {
   active('Aktif', 'ACTIVE'),
   needsMaintenance('Bakım Gerekli', 'NEEDS_MAINTENANCE'),
-  broken('Kırık', 'BROKEN'),
+  broken('Arızalı', 'BROKEN'),
   removed('Kaldırıldı', 'REMOVED');
 
   final String displayName;

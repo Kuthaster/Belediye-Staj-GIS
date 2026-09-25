@@ -4,6 +4,7 @@ import 'package:frontend/providers/object/urban_object_providers.dart';
 import 'package:frontend/widgets/display/object_detail_sheet.dart';
 import 'package:frontend/widgets/account/profile_drawer.dart';
 import 'package:frontend/widgets/create/create_object_tile.dart';
+import 'package:frontend/widgets/filter/object_filter_sheet.dart';
 
 class ObjectListScreen extends ConsumerWidget {
   const ObjectListScreen({super.key});
@@ -13,9 +14,29 @@ class ObjectListScreen extends ConsumerWidget {
     final objectsAsync = ref.watch(urbanObjectListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Cisimler')),
+      appBar: AppBar(
+        title: const Text('Cisimler'),
+        actions: [
+          Consumer(
+            builder: (context, ref, _) {
+              final filter = ref.watch(objectFilterProvider);
+              return IconButton(
+                icon: Icon(
+                  Icons.filter_list,
+                  color: filter.isEmpty
+                      ? null
+                      : Theme.of(context).colorScheme.primary,
+                ),
+                onPressed: () => showModalBottomSheet(
+                  context: context,
+                  builder: (context) => const ObjectFilterSheet(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       endDrawer: ProfileDrawer(),
-
       body: objectsAsync.when(
         data: (objects) {
           if (objects.isEmpty) {

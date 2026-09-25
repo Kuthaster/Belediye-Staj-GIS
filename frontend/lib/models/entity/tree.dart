@@ -52,6 +52,7 @@ class Tree {
   }
 
   Tree copyWith({
+    ObjectStatus? status,
     String? species,
     DateTime? plantingDate,
     double? trunkDiameterCm,
@@ -63,7 +64,7 @@ class Tree {
       type: type,
       latitude: latitude,
       longitude: longitude,
-      status: status,
+      status: status ?? this.status,
       createdAt: createdAt,
       updatedAt: updatedAt,
       species: species ?? this.species,

@@ -2,7 +2,7 @@ enum AgeGroup {
   preschool(
     'Okul Öncesi',
     'PRESCHOOL',
-  ), //0-7 TODO BU RAKAMLARI GARANTİLEYEN BİR ŞEY BUL
+  ),
   elementary('İlköğretim Çağı', 'ELEMENTARY'), //7- 14
   allAges('Her Yaş', 'ALL_AGES');
 

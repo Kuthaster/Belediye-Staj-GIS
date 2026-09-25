@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:frontend/models/entity/photo.dart';
 
@@ -12,7 +13,7 @@ class PhotoService {
       'file': await MultipartFile.fromFile(file.path),
     });
     final response = await _dio.post(
-      '/api/objects/$objectId/photo',
+      '/objects/$objectId/photo',
       data: formData,
     );
     return PhotoDTO.fromJson(response.data);
@@ -20,7 +21,7 @@ class PhotoService {
 
   Future<PhotoDTO?> getPhotoMetadata(int objectId) async {
     try {
-      final response = await _dio.get('/api/objects/$objectId/photo/metadata');
+      final response = await _dio.get('/objects/$objectId/photo/metadata');
       return PhotoDTO.fromJson(response.data);
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) return null;
@@ -28,12 +29,20 @@ class PhotoService {
     }
   }
 
+  Future<Uint8List> getPhoto(int objectId) async {
+    final response = await _dio.get<List<int>>(
+      '/objects/$objectId/photo',
+      options: Options(responseType: ResponseType.bytes),
+    );
+    return Uint8List.fromList(response.data!);
+  }
+
   Future<PhotoDTO> revertPhoto(int objectId) async {
-    final response = await _dio.post('/api/objects/$objectId/photo/revert');
+    final response = await _dio.post('/objects/$objectId/photo/revert');
     return PhotoDTO.fromJson(response.data);
   }
 
   Future<void> deletePhoto(int objectId) async {
-    await _dio.delete('/api/objects/$objectId/photo');
+    await _dio.delete('/objects/$objectId/photo');
   }
 }

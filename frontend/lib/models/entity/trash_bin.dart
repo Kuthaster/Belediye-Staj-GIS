@@ -48,6 +48,7 @@ class TrashBin {
   }
 
   TrashBin copyWith({
+    ObjectStatus? status,
     double? volumeLiters,
     BinType? binType,
     String? material,
@@ -58,7 +59,7 @@ class TrashBin {
       type: type,
       latitude: latitude,
       longitude: longitude,
-      status: status,
+      status: status ?? this.status,
       createdAt: createdAt,
       updatedAt: updatedAt,
       volumeLiters: volumeLiters ?? this.volumeLiters,

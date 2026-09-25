@@ -1,12 +1,14 @@
 package com.kutalmis.cografi_nesne_takip.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.kutalmis.cografi_nesne_takip.Dto.BenchCreateDTO;
@@ -321,6 +323,20 @@ public class UrbanObjectService {
                 saved.getStatus(),
                 saved.getCreatedAt(),
                 saved.getUpdatedAt());
+    }
+
+    public List<UrbanObjectSummaryDTO> searchUrbanObjects(
+            ObjectType type, ObjectStatus status, LocalDateTime createdFrom, LocalDateTime createdTo) {
+
+        Specification<UrbanObject> spec = Specification
+                .where(UrbanObjectSpecifications.hasType(type))
+                .and(UrbanObjectSpecifications.hasStatus(status))
+                .and(UrbanObjectSpecifications.createdBetween(createdFrom, createdTo));
+
+        return urbanObjectRepository.findAll(spec)
+                .stream()
+                .map(this::toSummaryDTO)
+                .toList();
     }
 
     // private helpers

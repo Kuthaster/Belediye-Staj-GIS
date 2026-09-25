@@ -6,5 +6,5 @@ public record UserCreateDTO(
                 String name,
                 String email,
                 String rawPassword,
-                Role role) { // TODO ROLEID DEĞİL DEĞİŞTİR
+                Role role) {
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:frontend/providers/object/urban_object_providers.dart';
 import 'package:frontend/widgets/display/object_detail_sheet.dart';
@@ -62,21 +63,6 @@ class _ObjectMapScreenState extends ConsumerState<ObjectMapScreen> {
             );
           }).toList();
 
-          if (_pendingCreateLocation != null) {
-            markers.add(
-              Marker(
-                point: _pendingCreateLocation!,
-                width: 40,
-                height: 40,
-                child: const Icon(
-                  Icons.add_location,
-                  size: 40,
-                  color: Colors.blue,
-                ),
-              ),
-            );
-          }
-
           final center = objects.isNotEmpty
               ? LatLng(objects.first.latitude, objects.first.longitude)
               : const LatLng(41.28, 36.33);
@@ -92,7 +78,45 @@ class _ObjectMapScreenState extends ConsumerState<ObjectMapScreen> {
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.kutalmis.cografi_nesne_takip',
               ),
-              MarkerLayer(markers: markers),
+              MarkerClusterLayerWidget(
+                options: MarkerClusterLayerOptions(
+                  maxClusterRadius: 45,
+                  size: const Size(40, 40),
+                  markers: markers,
+                  builder: (context, clusterMarkers) {
+                    return Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          clusterMarkers.length.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              if (_pendingCreateLocation != null)
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: _pendingCreateLocation!,
+                      width: 40,
+                      height: 40,
+                      child: const Icon(
+                        Icons.add_location,
+                        size: 40,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
             ],
           );
         },

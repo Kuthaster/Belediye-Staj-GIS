@@ -1,13 +1,12 @@
 import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/models/login/auth_constants.dart';
-import 'package:frontend/providers/core/dio_provider.dart';
-import 'package:frontend/providers/core/storage_provider.dart';
-import 'package:frontend/providers/object/photo_providers.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:frontend/models/entity/photo.dart';
+import 'package:frontend/providers/object/photo_providers.dart';
 import 'package:frontend/services/error_interceptor.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PhotoSection extends ConsumerStatefulWidget {
   final int objectId;
@@ -25,18 +24,10 @@ class PhotoSection extends ConsumerStatefulWidget {
 
 class _PhotoSectionState extends ConsumerState<PhotoSection> {
   bool _isBusy = false;
-  String? _authToken;
 
   @override
   void initState() {
     super.initState();
-    _loadToken();
-  }
-
-  Future<void> _loadToken() async {
-    final storage = ref.read(secureStorageProvider);
-    final token = await storage.read(key: authTokenKey);
-    if (mounted) setState(() => _authToken = token);
   }
 
   Future<void> _pickAndUpload(ImageSource source) async {
@@ -174,44 +165,58 @@ class _PhotoSectionState extends ConsumerState<PhotoSection> {
   }
 
   Widget _buildBody(PhotoDTO? photo) {
-    final baseUrl = ref.read(dioProvider).options.baseUrl;
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (photo != null)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: _authToken == null
-                  ? const SizedBox(
-                      height: 200,
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  : Image.network(
-                      '$baseUrl${photo.photoUrl}?t=${photo.uploadedAt.millisecondsSinceEpoch}',
-                      headers: {'Authorization': 'Bearer $_authToken'},
-                      fit: BoxFit.cover,
-                      height: 200,
-                      loadingBuilder: (context, child, progress) {
-                        if (progress == null) return child;
-                        return const SizedBox(
-                          height: 200,
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      },
-                      errorBuilder: (context, error, stack) => const SizedBox(
-                        height: 200,
-                        child: Center(child: Icon(Icons.broken_image)),
-                      ),
-                    ),
+            FutureBuilder<Uint8List>(
+              future: ref.read(photoServiceProvider).getPhoto(widget.objectId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox(
+                    height: 200,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+
+                if (snapshot.hasError) {
+                  debugPrint('Photo error: ${snapshot.error}');
+                  debugPrintStack(stackTrace: snapshot.stackTrace);
+
+                  return const SizedBox(
+                    height: 200,
+                    child: Center(child: Icon(Icons.broken_image)),
+                  );
+                }
+
+                final imageBytes = snapshot.data;
+
+                if (imageBytes == null || imageBytes.isEmpty) {
+                  return const SizedBox(
+                    height: 200,
+                    child: Center(child: Icon(Icons.broken_image)),
+                  );
+                }
+
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.memory(
+                    imageBytes,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              },
             )
           else
-            ListTile(
-              leading: const Icon(Icons.image_outlined, color: Colors.grey),
-              title: const Text('Fotoğraf yok'),
+            const ListTile(
+              leading: Icon(Icons.image_outlined, color: Colors.grey),
+              title: Text('Fotoğraf yok'),
             ),
+
           if (widget.canEdit) ...[
             const SizedBox(height: 8),
             Row(
@@ -225,6 +230,7 @@ class _PhotoSectionState extends ConsumerState<PhotoSection> {
                     ),
                   ),
                 ),
+
                 if (photo != null && photo.hasPrevious) ...[
                   const SizedBox(width: 8),
                   IconButton(
@@ -233,6 +239,7 @@ class _PhotoSectionState extends ConsumerState<PhotoSection> {
                     tooltip: 'Önceki fotoğrafa dön',
                   ),
                 ],
+
                 if (photo != null) ...[
                   const SizedBox(width: 8),
                   IconButton(

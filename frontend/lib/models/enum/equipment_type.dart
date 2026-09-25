@@ -2,10 +2,7 @@ enum EquipmentType {
   swing('Salıncak', 'SWING'),
   slide('Kaydırak', 'SLIDE'),
   teeterTotter('Tahtarevalli', 'TEETER_TOTTER'),
-  spinner(
-    'Dönen Oyun Elemanı',
-    'SPINNER',
-  ), //TODO ŞUNUN DOĞRU ADINI BUL ÇOK GENEL BİR TABİR İSİM BULAMIYORUM
+  spinner('Dönen Oyun Elemanı', 'SPINNER'),
   climber('Tırmanma Elemanı', 'CLIMBER');
 
   final String displayName;

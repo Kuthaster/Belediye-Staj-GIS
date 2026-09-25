@@ -43,13 +43,18 @@ class Bench {
     );
   }
 
-  Bench copyWith({int? seatCount, String? material, bool? hasBackrest}) {
+  Bench copyWith({
+    ObjectStatus? status,
+    int? seatCount,
+    String? material,
+    bool? hasBackrest,
+  }) {
     return Bench(
       id: id,
       type: type,
       latitude: latitude,
       longitude: longitude,
-      status: status,
+      status: status ?? this.status,
       createdAt: createdAt,
       updatedAt: updatedAt,
       seatCount: seatCount ?? this.seatCount,
